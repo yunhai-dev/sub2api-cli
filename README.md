@@ -4,6 +4,7 @@
 
 [![npm](https://img.shields.io/npm/v/sub2api-cli)](https://www.npmjs.com/package/sub2api-cli)
 [![license](https://img.shields.io/npm/l/sub2api-cli)](./LICENSE)
+[![skills](https://img.shields.io/badge/agent--skills-compatible-brightgreen)](https://agentskills.io)
 
 ---
 
@@ -36,6 +37,37 @@ npm install
 npm run build
 npm link    # 全局链接，之后可直接用 s2a
 ```
+
+---
+
+## Agent Skill（AI Agent 集成）
+
+本项目内置 [Agent Skill](https://agentskills.io)，支持 Claude Code、VS Code Copilot、Cursor、Codex 等 70+ AI Agent。安装后 Agent 可自动识别并使用 `s2a` CLI。
+
+### 安装 Skill
+
+通过 [`npx skills`](https://github.com/vercel-labs/skills) 一键安装（推荐）：
+
+```bash
+# 安装到当前项目
+npx skills add yunhai-dev/sub2api-cli
+
+# 全局安装（所有项目可用）
+npx skills add yunhai-dev/sub2api-cli -g
+
+# 指定 Agent 安装
+npx skills add yunhai-dev/sub2api-cli -a claude-code
+npx skills add yunhai-dev/sub2api-cli -a copilot -a cursor
+
+# 查看可用的 Skills
+npx skills add yunhai-dev/sub2api-cli --list
+```
+
+### 支持的 Agent
+
+Claude Code、VS Code Copilot、Cursor、OpenAI Codex、OpenCode、Roo Code、Goose、Amp、Kiro 等 70+ Agent。
+
+安装后在 Agent 中输入 `/sub2api` 即可调用，或直接用自然语言描述需求（如 "列出所有用户"），Agent 会自动加载 Skill 并执行对应命令。
 
 ---
 
