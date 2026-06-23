@@ -44,6 +44,7 @@ s2a <domain> <action> [positional-args] [options]
 | `--key <key>` | Admin API Key | `$SUB2API_ADMIN_KEY` |
 | `--output <format>` | `json` or `table` | `json` |
 | `--data-only` | Only output `data` field, unwrap envelope | `false` |
+| `--compact` | Compact structure (arrays→cols/rows, saves tokens) | `false` |
 | `--quiet` | Suppress output except errors | `false` |
 
 ## All 29 Command Domains
@@ -148,7 +149,29 @@ s2a users list --data-only
 
 # Quiet — suppress output, only errors shown
 s2a system version --data-only --quiet
+
+# Compact — token-efficient structure for agents (recommended for AI agents)
+s2a users list --compact
+s2a accounts list --all --compact --data-only
 ```
+
+### Compact mode (`--compact`)
+
+**Recommended for all AI agent usage.** Converts arrays of objects with the same keys into a `{cols, rows}` format, eliminating repeated key names. **All data is preserved**, only the structure changes.
+
+Normal output:
+```json
+{"items": [{"id":1,"name":"a","status":"active"}, {"id":2,"name":"b","status":"active"}]}
+```
+
+Compact output:
+```json
+{"items": {"cols":["id","name","status"], "rows":[[1,"a","active"], [2,"b","active"]]}}
+```
+
+Best for: `list` commands with many items (users, accounts, groups, etc.). Typical savings: **30-40%** fewer characters. Works recursively on nested arrays (e.g. `account_groups`, `groups` inside account objects).
+
+**Recommended combination for agents:** `--compact --data-only` — removes the `{code, message}` wrapper AND compresses array structures.
 
 ### Scripting examples
 
@@ -170,7 +193,8 @@ When the user asks to perform a sub2api admin task:
 4. **Use `--json` for complex bodies** rather than individual flags
 5. **Use `--output table`** when showing results to users for readability
 6. **Use `--data-only`** when piping to other commands or scripts
-7. **Use `s2a <domain> --help`** if unsure about available commands
+7. **Always use `--compact --data-only`** when you (the agent) are reading the output — saves ~30-40% tokens
+8. **Use `s2a <domain> --help`** if unsure about available commands
 
 ## Error Handling
 

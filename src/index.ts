@@ -21,6 +21,7 @@ program
   .option("--output <format>", "输出格式: json/table", "json")
   .option("--data-only", "仅输出 data 字段（去掉 code/message 包装）", false)
   .option("--quiet", "静默模式（仅错误时输出）", false)
+  .option("--compact", "紧凑结构输出（同结构数组→cols/rows，节省 Agent token）", false)
   .hook("preAction", (thisCommand) => {
     // 合并全局选项
     const opts = thisCommand.opts();
@@ -29,6 +30,7 @@ program
     globalOpts.output = opts.output;
     globalOpts.dataOnly = opts.dataOnly;
     globalOpts.quiet = opts.quiet;
+    globalOpts.compact = opts.compact;
   });
 
 // 注册所有域的子命令

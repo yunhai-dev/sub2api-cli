@@ -93,6 +93,7 @@ function registerEndpoint(
         output: opts.output || globalOptsRef.output,
         dataOnly: opts.dataOnly ?? globalOptsRef.dataOnly,
         quiet: opts.quiet ?? globalOptsRef.quiet,
+        compact: opts.compact ?? globalOptsRef.compact,
       };
 
       // 提取路径参数

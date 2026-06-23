@@ -45,4 +45,5 @@ export interface GlobalOptions {
   output?: "json" | "table";
   dataOnly?: boolean;
   quiet?: boolean;
+  compact?: boolean;
 }

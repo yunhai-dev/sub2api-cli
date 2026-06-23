@@ -391,6 +391,7 @@ cat body.json | s2a raw POST /admin/some/endpoint --json -
 | `--key <key>` | Admin API Key | 读取 `SUB2API_ADMIN_KEY` 环境变量 |
 | `--output <format>` | 输出格式：`json` 或 `table` | `json` |
 | `--data-only` | 仅输出 data 字段，去掉 code/message 包装 | `false` |
+| `--compact` | 紧凑结构输出（同结构数组→cols/rows，节省 Agent token） | `false` |
 | `--quiet` | 静默模式，仅错误时输出 | `false` |
 | `--version` | 显示版本号 | |
 | `--help` | 显示帮助 | |
@@ -447,6 +448,30 @@ s2a users list --data-only
 }
 ```
 
+### 紧凑模式（Agent 友好）
+
+```bash
+# 列表数据压缩（推荐 Agent 使用）
+s2a users list --compact
+s2a accounts list --all --compact --data-only
+
+# 配合其他选项组合
+s2a accounts list --platform openai --status active --compact --data-only
+s2a ops account-availability --compact --data-only
+```
+
+将同结构的对象数组转为 `{cols, rows}` 格式，消除重复的 key 名，**数据不丢失**，仅优化结构：
+
+```json
+// 普通输出（每个对象重复 key）
+{"items": [{"id":1,"name":"a","status":"active"}, {"id":2,"name":"b","status":"active"}]}
+
+// 紧凑输出（key 只出现一次）
+{"items": {"cols":["id","name","status"], "rows":[[1,"a","active"], [2,"b","active"]]}}
+```
+
+递归处理嵌套数组（如账号中的 `account_groups`、`groups`），典型节省 **30-40%** 字符数。推荐 AI Agent 始终使用 `--compact --data-only` 组合。
+
 ### 在脚本中使用
 
 ```bash
@@ -455,6 +480,15 @@ version=$(s2a system version --data-only --quiet | jq -r '.version')
 
 # 获取用户数量
 total=$(s2a users list --data-only --quiet | jq '.total')
+
+# 紧凑模式 + jq 转 CSV（适合数据导出）
+s2a accounts list --page-size 10 --compact --data-only --quiet | jq -r '
+  (.items.cols | join(",")),
+  (.items.rows[] | [.[0:5][] | tostring] | join(","))
+'
+# 输出：id,name,notes,platform,type
+#       116,aatu3942@outlook.com,,openai,oauth
+#       77,aigi9423@outlook.com,,openai,oauth
 ```
 
 ---

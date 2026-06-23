@@ -11,9 +11,56 @@ export function printResult<T>(
 
   if (format === "table") {
     printTable(output);
+  } else if (opts.compact) {
+    // Agent-friendly: structural compression to save tokens (all data preserved)
+    console.log(JSON.stringify(compactOutput(output)));
   } else {
     console.log(JSON.stringify(output, null, 2));
   }
+}
+
+// 递归压缩输出结构（保留全部数据）
+// - 同结构对象数组 → {cols, rows} 格式（消除重复 key）
+// - 递归处理嵌套结构
+function compactOutput(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    const arr = value.map(compactOutput);
+
+    // 同结构对象数组（≥2 项）→ {cols, rows}
+    if (arr.length >= 2 && isUniformObjectArray(arr)) {
+      const cols = Object.keys(arr[0] as Record<string, unknown>);
+      const rows = arr.map((item) =>
+        cols.map((k) => (item as Record<string, unknown>)[k])
+      );
+      return { cols, rows };
+    }
+
+    return arr;
+  }
+
+  if (value !== null && typeof value === "object") {
+    const result: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+      result[k] = compactOutput(v);
+    }
+    return result;
+  }
+
+  return value;
+}
+
+// 判断数组中所有对象是否拥有相同的 key 集合
+function isUniformObjectArray(arr: unknown[]): boolean {
+  if (arr.length < 2) return false;
+  const first = arr[0] as Record<string, unknown>;
+  if (typeof first !== "object" || first === null || Array.isArray(first)) return false;
+  const keys = Object.keys(first).sort().join(",");
+  for (let i = 1; i < arr.length; i++) {
+    const item = arr[i] as Record<string, unknown>;
+    if (typeof item !== "object" || item === null || Array.isArray(item)) return false;
+    if (Object.keys(item).sort().join(",") !== keys) return false;
+  }
+  return true;
 }
 
 function printTable(data: unknown): void {
