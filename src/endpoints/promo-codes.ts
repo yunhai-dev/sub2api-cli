@@ -1,0 +1,60 @@
+import type { EndpointDef } from "../types.js";
+
+export const promoCodeEndpoints: EndpointDef[] = [
+  {
+    domain: "promo-codes",
+    action: "list",
+    method: "GET",
+    path: "/admin/promo-codes",
+    queryParams: [
+      { name: "page", type: "number", required: false, description: "页码" },
+      { name: "page_size", type: "number", required: false, description: "每页数量" },
+      { name: "sort_by", type: "string", required: false, description: "排序字段" },
+      { name: "sort_order", type: "string", required: false, description: "asc/desc" },
+    ],
+    isPaginated: true,
+    description: "列出所有优惠码",
+    aliases: ["ls"],
+  },
+  {
+    domain: "promo-codes",
+    action: "get",
+    method: "GET",
+    path: "/admin/promo-codes/:id",
+    pathParams: [{ name: "id", type: "number", required: true, description: "优惠码 ID" }],
+    description: "获取优惠码详情",
+  },
+  {
+    domain: "promo-codes",
+    action: "create",
+    method: "POST",
+    path: "/admin/promo-codes",
+    rawBody: true,
+    description: "创建优惠码 (使用 --json 传入)",
+  },
+  {
+    domain: "promo-codes",
+    action: "update",
+    method: "PUT",
+    path: "/admin/promo-codes/:id",
+    pathParams: [{ name: "id", type: "number", required: true, description: "优惠码 ID" }],
+    rawBody: true,
+    description: "更新优惠码 (使用 --json 传入更新字段)",
+  },
+  {
+    domain: "promo-codes",
+    action: "delete",
+    method: "DELETE",
+    path: "/admin/promo-codes/:id",
+    pathParams: [{ name: "id", type: "number", required: true, description: "优惠码 ID" }],
+    description: "删除优惠码",
+  },
+  {
+    domain: "promo-codes",
+    action: "usages",
+    method: "GET",
+    path: "/admin/promo-codes/:id/usages",
+    pathParams: [{ name: "id", type: "number", required: true, description: "优惠码 ID" }],
+    description: "获取优惠码使用记录",
+  },
+];

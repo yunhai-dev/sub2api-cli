@@ -1,0 +1,133 @@
+import type { EndpointDef } from "../types.js";
+
+export const errorPassthroughEndpoints: EndpointDef[] = [
+  {
+    domain: "error-passthrough-rules",
+    action: "list",
+    method: "GET",
+    path: "/admin/error-passthrough-rules",
+    description: "列出错误透传规则",
+    aliases: ["ls"],
+  },
+  {
+    domain: "error-passthrough-rules",
+    action: "get",
+    method: "GET",
+    path: "/admin/error-passthrough-rules/:id",
+    pathParams: [{ name: "id", type: "number", required: true, description: "规则 ID" }],
+    description: "获取错误透传规则详情",
+  },
+  {
+    domain: "error-passthrough-rules",
+    action: "create",
+    method: "POST",
+    path: "/admin/error-passthrough-rules",
+    rawBody: true,
+    description: "创建错误透传规则 (使用 --json 传入)",
+  },
+  {
+    domain: "error-passthrough-rules",
+    action: "update",
+    method: "PUT",
+    path: "/admin/error-passthrough-rules/:id",
+    pathParams: [{ name: "id", type: "number", required: true, description: "规则 ID" }],
+    rawBody: true,
+    description: "更新错误透传规则 (使用 --json 传入)",
+  },
+  {
+    domain: "error-passthrough-rules",
+    action: "delete",
+    method: "DELETE",
+    path: "/admin/error-passthrough-rules/:id",
+    pathParams: [{ name: "id", type: "number", required: true, description: "规则 ID" }],
+    description: "删除错误透传规则",
+  },
+];
+
+export const tlsFingerprintEndpoints: EndpointDef[] = [
+  {
+    domain: "tls-fingerprint-profiles",
+    action: "list",
+    method: "GET",
+    path: "/admin/tls-fingerprint-profiles",
+    description: "列出 TLS 指纹配置",
+    aliases: ["ls"],
+  },
+  {
+    domain: "tls-fingerprint-profiles",
+    action: "get",
+    method: "GET",
+    path: "/admin/tls-fingerprint-profiles/:id",
+    pathParams: [{ name: "id", type: "number", required: true, description: "配置 ID" }],
+    description: "获取 TLS 指纹配置详情",
+  },
+  {
+    domain: "tls-fingerprint-profiles",
+    action: "create",
+    method: "POST",
+    path: "/admin/tls-fingerprint-profiles",
+    rawBody: true,
+    description: "创建 TLS 指纹配置 (使用 --json 传入)",
+  },
+  {
+    domain: "tls-fingerprint-profiles",
+    action: "update",
+    method: "PUT",
+    path: "/admin/tls-fingerprint-profiles/:id",
+    pathParams: [{ name: "id", type: "number", required: true, description: "配置 ID" }],
+    rawBody: true,
+    description: "更新 TLS 指纹配置 (使用 --json 传入)",
+  },
+  {
+    domain: "tls-fingerprint-profiles",
+    action: "delete",
+    method: "DELETE",
+    path: "/admin/tls-fingerprint-profiles/:id",
+    pathParams: [{ name: "id", type: "number", required: true, description: "配置 ID" }],
+    description: "删除 TLS 指纹配置",
+  },
+];
+
+export const scheduledTestEndpoints: EndpointDef[] = [
+  {
+    domain: "scheduled-test-plans",
+    action: "create",
+    method: "POST",
+    path: "/admin/scheduled-test-plans",
+    rawBody: true,
+    description: "创建定时测试计划 (使用 --json 传入)",
+  },
+  {
+    domain: "scheduled-test-plans",
+    action: "update",
+    method: "PUT",
+    path: "/admin/scheduled-test-plans/:id",
+    pathParams: [{ name: "id", type: "number", required: true, description: "计划 ID" }],
+    rawBody: true,
+    description: "更新定时测试计划 (使用 --json 传入)",
+  },
+  {
+    domain: "scheduled-test-plans",
+    action: "delete",
+    method: "DELETE",
+    path: "/admin/scheduled-test-plans/:id",
+    pathParams: [{ name: "id", type: "number", required: true, description: "计划 ID" }],
+    description: "删除定时测试计划",
+  },
+  {
+    domain: "scheduled-test-plans",
+    action: "results",
+    method: "GET",
+    path: "/admin/scheduled-test-plans/:id/results",
+    pathParams: [{ name: "id", type: "number", required: true, description: "计划 ID" }],
+    description: "获取测试计划结果",
+  },
+  {
+    domain: "scheduled-test-plans",
+    action: "list-by-account",
+    method: "GET",
+    path: "/admin/accounts/:id/scheduled-test-plans",
+    pathParams: [{ name: "id", type: "number", required: true, description: "账号 ID" }],
+    description: "获取账号的测试计划",
+  },
+];

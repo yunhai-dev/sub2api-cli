@@ -1,0 +1,38 @@
+{
+  "name": "sub2api-cli",
+  "version": "1.0.0",
+  "description": "CLI tool for sub2api admin API — covers all 323 admin endpoints",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "s2a": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "sub2api",
+    "admin",
+    "cli",
+    "api-gateway"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "tsx": "^4.19.0",
+    "@types/node": "^22.0.0"
+  }
+}
