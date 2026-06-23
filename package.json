@@ -1,6 +1,6 @@
 {
   "name": "sub2api-cli",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "CLI tool for sub2api admin API — covers all 323 admin endpoints",
   "type": "module",
   "main": "dist/index.js",
